@@ -18,11 +18,9 @@ public class ContextPathFilter implements Filter {
         HttpServletResponseWrapper wrappedResponse = new HttpServletResponseWrapper(httpResponse) {
             @Override
             public void sendRedirect(String location) throws IOException {
-                System.out.println("old location = " + location);
                 if (!location.startsWith("http://") && !location.startsWith("https://")) {
                     location = httpRequest.getContextPath() + location;
                 }
-                System.out.println("new location = " + location);
                 super.sendRedirect(location);
             }
         };

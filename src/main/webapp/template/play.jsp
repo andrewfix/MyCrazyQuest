@@ -11,6 +11,7 @@
       </div>
    </c:forEach>
    </fieldset>
+   <p id="errorMessages">${errorMessages}</p>
    <button type="submit">Выполнить</button>
 </form>
 

@@ -3,3 +3,7 @@ body{line-height:20px;min-width:1200px;background:#f5f3f1;color:#333}
 h1 {
 color:red;
 }
+
+#errorMessages {
+color: red;
+}

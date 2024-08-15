@@ -33,13 +33,15 @@ public class PlayServlet extends HttpServletService {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String transition = req.getParameter("transition");
         try {
-            gameService.goTo(transition);
-
+            if (transition == null) {
+                throw new Exception("Вы ничего не выбрали!");
+            } else {
+                gameService.goTo(transition);
+                resp.sendRedirect("/play");
+            }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            req.setAttribute("errorMessages", e.getMessage());
+            req.getRequestDispatcher("/template/play.jsp").forward(req, resp);
         }
-
-        resp.sendRedirect("/play");
-
     }
 }
