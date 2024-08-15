@@ -40,7 +40,5 @@ build/
 /work
 /temp
 /conf
-/.smarttomcat
 /logs/
 /.idea/
-/.smarttomcat/

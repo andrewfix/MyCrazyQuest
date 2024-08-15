@@ -1,10 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<body>
+﻿<%@ include file="/design/header.jsp" %>
 
 <h2>${gameService.getStateNodeDescriptions()}</h2>
-<form method="POST" action="/play">
+
+<form method="POST" action="${contextPath}/play">
    <fieldset>
    <c:forEach var="transitions" items="${gameService.getStateNodeTransitions()}">
     <div>
@@ -15,5 +13,5 @@
    </fieldset>
    <button type="submit">Выполнить</button>
 </form>
-</body>
-</html>
+
+<%@ include file="/design/footer.jsp" %>
