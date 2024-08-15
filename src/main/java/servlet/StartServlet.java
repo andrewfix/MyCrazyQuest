@@ -27,7 +27,6 @@ public class StartServlet extends HttpServletService {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
-        System.out.println("!" + userName + "!");
         if (!StringUtils.isEmpty(userName)) {
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("userName", userName);
@@ -37,6 +36,5 @@ public class StartServlet extends HttpServletService {
             req.setAttribute("errorMessages", "Имя не может быть пустым!");
             req.getRequestDispatcher("/template/start.jsp").forward(req, resp);
         }
-
     }
 }
