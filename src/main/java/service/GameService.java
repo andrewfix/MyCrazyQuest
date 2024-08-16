@@ -15,10 +15,10 @@ public class GameService {
     @Getter
     private String gameTitle;
     @Getter
-    private String gameDescription;
-    private QuestScenarioLoaderService scenarioLoaderService;
-    private QuestContext quest;
-    public Person person;
+    private final String gameDescription;
+    private final QuestScenarioLoaderService scenarioLoaderService;
+    private final QuestContext quest;
+    private Person person;
 
     public GameService(URL fileName) throws IOException {
         scenarioLoaderService = new QuestScenarioLoaderService();
@@ -28,7 +28,7 @@ public class GameService {
         this.gameTitle = scenarioLoaderService.getQuestTitle();
         this.gameDescription = scenarioLoaderService.getQuestDescription();
 
-        quest = new QuestContext<QuestState, Person>(scenario);
+        quest = new QuestContext<QuestState<Person>, Person>(scenario);
         quest.setDefaultState(new DefaultQuestState());
         newGame();
     }

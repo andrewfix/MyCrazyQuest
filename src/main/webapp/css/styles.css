@@ -1,9 +1,42 @@
-﻿html,body{height:100%;font-family:'Arimo', sans-serif !important;}
-body{line-height:20px;min-width:1200px;background:#f5f3f1;color:#333}
+﻿html,body{
+    margin: 10px;
+    height:100%;
+    font-family:'Arial', sans-serif !important;
+}
+
+body{
+    line-height:20px;
+    min-width:1200px;
+    background:#f5f3f1;
+    color:#333
+}
+
+fieldset {
+    margin-top: 20px;
+}
+
+input {
+    margin: 10px 0px ;
+}
+
+input[type=text]
+{
+  padding: 10px 10px;
+}
+
+label {
+    margin-left: 5px;
+}
+
 h1 {
-color:red;
+    color:red;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 14px;
 }
 
 #errorMessages {
-color: red;
+    color: red;
 }
