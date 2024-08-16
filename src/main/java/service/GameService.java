@@ -61,8 +61,8 @@ public class GameService {
 
         QuestState<Person> stateInstance = (QuestState<Person>) quest.createStateInstance();
         stateInstance.before((Person) quest.getEntity());
-
         quest.setCurrentStateNode(stateName);
+        stateInstance.after((Person) quest.getEntity());
     }
 
     public boolean isGameEnded() {

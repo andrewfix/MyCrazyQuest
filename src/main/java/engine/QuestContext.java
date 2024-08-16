@@ -21,13 +21,12 @@ public class QuestContext<T,V> {
     }
 
     public T createStateInstance() throws Exception {
-       /* try {
-            Class<?> stateClass = Class.forName(currentStateNode.getClassName());
-            return (T) stateClass.getDeclaredConstructor(V.class).newInstance(entity);
+        try {
+            Class<?> stateClass = Class.forName("entity."+currentStateNode.getClassName());
+            return (T) stateClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             return defaultState;
-        }*/
-        return defaultState;
+        }
     }
 
     private QuestStateNode findStateNodeByName(String name) {
