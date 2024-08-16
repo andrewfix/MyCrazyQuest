@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class GameService {
     @Getter
@@ -48,7 +47,7 @@ public class GameService {
 
     public Map<String, String> getEntityInfo() {
         Map<String, String> map = new HashMap<>();
-        map.put("Health",String.valueOf(person.getStrength()));
+        map.put("Health",String.valueOf(person.getHealth()));
         return map;
     }
 
