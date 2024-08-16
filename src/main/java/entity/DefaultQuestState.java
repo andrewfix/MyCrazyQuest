@@ -1,15 +1,13 @@
 package entity;
 
-import entity.QuestState;
-
-public class DefaultQuestState implements QuestState {
+public class DefaultQuestState implements QuestState<Person> {
     @Override
-    public void prepare() {
-        System.out.println("Prepare.....");
+    public void before(Person person) {
+        person.decStrength(5);
     }
 
     @Override
-    public void execute() {
-        System.out.println("Execute!");
+    public void after(Person person) {
+
     }
 }

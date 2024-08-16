@@ -3,10 +3,13 @@ package engine;
 import lombok.Getter;
 import lombok.Setter;
 
-public class QuestContext<T> {
+public class QuestContext<T,V> {
     @Getter
     private QuestStateNode currentStateNode;
     private final QuestStateNode initStateNode;
+    @Getter
+    @Setter
+    private V entity;
     @Setter
     private T defaultState;
 
@@ -14,15 +17,17 @@ public class QuestContext<T> {
         this.currentStateNode = initStateNode;
         this.initStateNode = initStateNode;
         this.defaultState = null;
+        this.entity = null;
     }
 
     public T createStateInstance() throws Exception {
-        try {
+       /* try {
             Class<?> stateClass = Class.forName(currentStateNode.getClassName());
-            return (T) stateClass.getDeclaredConstructor().newInstance();
+            return (T) stateClass.getDeclaredConstructor(V.class).newInstance(entity);
         } catch (Exception e) {
             return defaultState;
-        }
+        }*/
+        return defaultState;
     }
 
     private QuestStateNode findStateNodeByName(String name) {
@@ -50,6 +55,7 @@ public class QuestContext<T> {
 
     public void restart() {
         currentStateNode = initStateNode;
+        entity = null;
     }
 
 }

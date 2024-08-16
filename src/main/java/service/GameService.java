@@ -2,6 +2,7 @@ package service;
 
 import engine.QuestContext;
 import entity.DefaultQuestState;
+import entity.Person;
 import entity.QuestState;
 import lombok.Getter;
 
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GameService {
     @Getter
@@ -17,6 +19,7 @@ public class GameService {
     private String gameDescription;
     private QuestScenarioLoaderService scenarioLoaderService;
     private QuestContext quest;
+    public Person person;
 
     public GameService(URL fileName) throws IOException {
         scenarioLoaderService = new QuestScenarioLoaderService();
@@ -26,17 +29,13 @@ public class GameService {
         this.gameTitle = scenarioLoaderService.getQuestTitle();
         this.gameDescription = scenarioLoaderService.getQuestDescription();
 
-        quest = new QuestContext<QuestState>(scenario);
+        quest = new QuestContext<QuestState, Person>(scenario);
         quest.setDefaultState(new DefaultQuestState());
-
+        newGame();
     }
 
     public String getStateNodeDescriptions() {
         return quest.getCurrentStateNode().getDescription();
-    }
-
-    public QuestState createStateInstance() throws Exception {
-        return (QuestState) quest.createStateInstance();
     }
 
     public Map<String, String> getStateNodeTransitions() {
@@ -47,11 +46,23 @@ public class GameService {
         return map;
     }
 
+    public Map<String, String> getEntityInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("Health",String.valueOf(person.getStrength()));
+        return map;
+    }
+
     public void newGame() {
         quest.restart();
+        person = new Person();
+        quest.setEntity(person);
     }
 
     public void goTo(String stateName) throws Exception {
+
+        QuestState<Person> stateInstance = (QuestState<Person>) quest.createStateInstance();
+        stateInstance.before((Person) quest.getEntity());
+
         quest.setCurrentStateNode(stateName);
     }
 

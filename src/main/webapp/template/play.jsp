@@ -2,6 +2,14 @@
 
 <h2>${gameService.getStateNodeDescriptions()}</h2>
 
+<fieldset>
+<c:forEach var="info" items="${gameService.getEntityInfo()}">
+<div>
+    <b>${info.getKey()}: </b> ${info.getValue()}%
+</div>
+</c:forEach>
+</fieldset>
+
 <form method="POST" action="${contextPath}/play">
    <fieldset>
    <c:forEach var="transitions" items="${gameService.getStateNodeTransitions()}">
