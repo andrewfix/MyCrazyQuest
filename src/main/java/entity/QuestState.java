@@ -1,6 +1,6 @@
 package entity;
 
 public interface QuestState<V> {
-    void before(V v);
-    void after(V v);
+    void beforeExit(V v);
+    void afterShow(V v);
 }

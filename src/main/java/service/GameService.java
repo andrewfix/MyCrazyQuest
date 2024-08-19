@@ -2,7 +2,7 @@ package service;
 
 import engine.QuestContext;
 import entity.DefaultQuestState;
-import entity.Person;
+import entity.Player;
 import entity.QuestState;
 import lombok.Getter;
 
@@ -17,10 +17,10 @@ public class GameService {
     @Getter
     private final String gameDescription;
     private final QuestScenarioLoaderService scenarioLoaderService;
-    private final QuestContext quest;
-    private Person person;
+    private final QuestContext<QuestState<Player>, Player> quest;
+    private Player person;
 
-    public GameService(URL fileName) throws IOException {
+    public GameService(URL fileName) throws IOException, Exception {
         scenarioLoaderService = new QuestScenarioLoaderService();
         scenarioLoaderService.loadFromYaml(fileName);
 
@@ -28,7 +28,7 @@ public class GameService {
         this.gameTitle = scenarioLoaderService.getQuestTitle();
         this.gameDescription = scenarioLoaderService.getQuestDescription();
 
-        quest = new QuestContext<QuestState<Person>, Person>(scenario);
+        quest = new QuestContext<>(scenario);
         quest.setDefaultState(new DefaultQuestState());
         newGame();
     }
@@ -39,30 +39,34 @@ public class GameService {
 
     public Map<String, String> getStateNodeTransitions() {
         Map<String, String> map = new HashMap<>();
-        this.quest.getCurrentStateNode().getTransitions().entrySet().forEach(x -> {
-            map.put(x.getKey().getName(), x.getValue());
-        });
+        this.quest.getCurrentStateNode().getTransitions()
+                .entrySet()
+                .stream().filter(x -> x.getKey().isShowNode())
+                .forEach(x -> {
+                    map.put(x.getKey().getName(), x.getValue());
+                });
         return map;
     }
 
     public Map<String, String> getEntityInfo() {
         Map<String, String> map = new HashMap<>();
-        map.put("Health",String.valueOf(person.getHealth()));
+        map.put("Здоровье", String.valueOf(person.getHealth()));
+        map.put("Невменяемость", String.valueOf(person.getInsanity()));
+        map.put("Предметы в наличии", person.getItems().toString());
         return map;
     }
 
     public void newGame() {
         quest.restart();
-        person = new Person();
+        person = new Player(quest);
         quest.setEntity(person);
     }
 
     public void goTo(String stateName) throws Exception {
 
-        QuestState<Person> stateInstance = (QuestState<Person>) quest.createStateInstance();
-        stateInstance.before((Person) quest.getEntity());
+        ((QuestState<Player>) quest.createStateInstance()).beforeExit((Player) quest.getEntity());
         quest.setCurrentStateNode(stateName);
-        stateInstance.after((Person) quest.getEntity());
+        ((QuestState<Player>) quest.createStateInstance()).afterShow((Player) quest.getEntity());
     }
 
     public boolean isGameEnded() {

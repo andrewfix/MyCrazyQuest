@@ -21,7 +21,7 @@ public class InitializationListener implements ServletContextListener {
             servletContext.setAttribute("contextPath", servletContext.getContextPath());
 
         } catch (Exception e) {
-
+            servletContext.setAttribute("gameService", e);
         }
     }
 }

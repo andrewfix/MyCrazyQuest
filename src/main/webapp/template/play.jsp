@@ -1,7 +1,5 @@
 ﻿<%@ include file="/design/header.jsp" %>
 
-<h2>${gameService.getStateNodeDescriptions()}</h2>
-
 <fieldset>
 <c:forEach var="info" items="${gameService.getEntityInfo()}">
 <div>
@@ -9,6 +7,8 @@
 </div>
 </c:forEach>
 </fieldset>
+
+<h2>${gameService.getStateNodeDescriptions()}</h2>
 
 <form method="POST" action="${contextPath}/play">
    <fieldset>

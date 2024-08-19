@@ -3,7 +3,7 @@ package engine;
 import lombok.Getter;
 import lombok.Setter;
 
-public class QuestContext<T,V> {
+public class QuestContext<T, V> {
     @Getter
     private QuestStateNode currentStateNode;
     private final QuestStateNode initStateNode;
@@ -22,19 +22,24 @@ public class QuestContext<T,V> {
 
     public T createStateInstance() throws Exception {
         try {
-            Class<?> stateClass = Class.forName("entity."+currentStateNode.getClassName());
+            Class<?> stateClass = Class.forName("entity." + currentStateNode.getClassName());
             return (T) stateClass.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             return defaultState;
         }
     }
 
-    private QuestStateNode findStateNodeByName(String name) {
+    public QuestStateNode findStateNodeByName(String name) {
         try {
-            return currentStateNode.getTransitions().entrySet()
-                    .stream()
-                    .filter(x -> x.getKey().getName().equals(name))
-                    .findFirst().get().getKey();
+            return currentStateNode.find(x -> x.getName().equals(name)).stream().findFirst().get();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public QuestStateNode findAllStateNodeByName(String name) {
+        try {
+            return initStateNode.find(x -> x.getName().equals(name)).stream().findFirst().get();
         } catch (Exception e) {
             return null;
         }

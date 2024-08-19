@@ -22,7 +22,7 @@ public class QuestScenarioLoaderService {
         this.states = new HashMap<>();
     }
 
-    public void loadFromYaml(URL url) throws IOException {
+    public void loadFromYaml(URL url) throws IOException, Exception {
         YAMLMapper mapper = new YAMLMapper();
         try (InputStream inputStream = url.openStream()) {
             if (inputStream == null) {
@@ -54,7 +54,11 @@ public class QuestScenarioLoaderService {
                 QuestStateNode stateNode = states.get(stateKey);
                 if (transitions != null) {
                     for (Map.Entry<String, String> transition : transitions.entrySet()) {
-                        stateNode.addTransition(states.get(transition.getKey()), transition.getValue());
+                        var key = states.get(transition.getValue());
+                        if (key == null) {
+                               throw new Exception("Нет узла " + transition.getValue() + " для \"" + transition.getKey() + "\"");
+                        }
+                        stateNode.addTransition(key, transition.getKey());
                     }
                 }
             }
