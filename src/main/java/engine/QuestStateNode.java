@@ -17,12 +17,16 @@ public class QuestStateNode {
     private String className;
     @Getter
     @Setter
+    private QuestStateNode forward;
+    @Getter
+    @Setter
     private boolean showNode;
 
     public QuestStateNode(String name, String description, String className) {
         this.name = name;
         this.description = description;
         this.className = className;
+        this.forward = null;
         this.transitions = new HashMap<>();
         this.showNode = true;
     }

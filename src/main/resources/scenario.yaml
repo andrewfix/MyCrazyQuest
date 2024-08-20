@@ -6,7 +6,6 @@ states:
   laboratoryEntrance:
     className: LaboratoryEntranceState
     description: "Вы находитесь у входа в секретную лабораторию. Вокруг темно и холодно. Спереди виднеется коридор."
-    healthEffect: -5  # Потеря здоровья на каждом шаге
     transitions:
       "идти в коридор": darkCorridor
       "осмотреть окрестности": checkSurroundings
@@ -14,35 +13,29 @@ states:
   checkSurroundings:
     className: CheckSurroundingsState
     description: "Вы решили осмотреться вокруг. Внезапно на вас напал зомби-извращенец! Он успел укусить вас, и вы почувствовали сильную боль и головокружение."
-    healthEffect: -40  # Потеря здоровья
-    insanityEffect: +50  # Невменяемость увеличивается
     transitions:
       "вернуться ко входу": laboratoryEntrance
 
   darkCorridor:
     className: DarkCorridorState
     description: "Вы идете по тёмному коридору. На полу лежат разбитые колбы и что-то склизкое. Справа дверь в лабораторию, все в кровавых отпечатках, слева дверь с надписью 'Арсенал', тоже вся исцарапаная и в подтеках крови."
-    healthEffect: -10  # Потеря здоровья
     transitions:
       "идти в лабораторию": laboratoryRoom
       "идти в арсенал": arsenalRoom
+      "двигаться дальше в глубь коридора": darkCorridorContinuation
 
   laboratoryRoom:
     className: LaboratoryRoomState
     description: "Вы вошли в лабораторию. Вокруг вас колбы с неизвестными жидкостями, и в воздухе витает запах чего-то ядовитого. На столе лежат аптечки, под ним искусанный труп ученого."
-    healthEffect: -15  # Потеря здоровья из-за ядовитых газов
-    insanityEffect: +20  # Невменяемость увеличивается
     transitions:
       "осмотреть колбы": inspectFlasks
       "взять аптечку": takeMedkit
-      "осмотреть труп ученого": InspectScientistCorpse
+      "осмотреть труп ученого": inspectScientistCorpse
       "уйти в коридор": darkCorridor
 
   inspectFlasks:
     className: InspectFlasksState
     description: "Вы решили осмотреть колбы. Одна из них разбилась, и в воздух выпустился токсичный газ. Вы начинаете кашлять и терять ориентацию."
-    healthEffect: -20  # Потеря здоровья из-за токсичного газа
-    insanityEffect: +30  # Невменяемость увеличивается
     transitions:
       "вернуться в коридор": darkCorridor
 
@@ -52,7 +45,7 @@ states:
     itemAcquired: "аптечка"  # Игрок получает аптечку
     transitions:
       "выпить лекарство": useMedkit
-      "осмотреть труп ученого": InspectScientistCorpse
+      "осмотреть труп ученого": inspectScientistCorpse
       "вернуться в коридор": darkCorridor
 
   useMedkit:
@@ -60,10 +53,10 @@ states:
     description: "Вы выпили лекарство из аптечки и почувствовали, как ваше здоровье улучшилось."
     healthEffect: +20  # Восстановление здоровья
     transitions:
-      "осмотреть труп ученого": InspectScientistCorpse
+      "осмотреть труп ученого": inspectScientistCorpse
       "вернуться в коридор": darkCorridor
 
-  InspectScientistCorpse:
+  inspectScientistCorpse:
     className: InspectScientistCorpseState
     description: "Вы начали осматривать труп ученого и заметили у него ключ в носке."
     transitions:
@@ -74,8 +67,50 @@ states:
     description: "Вы вошли в арсенал. Здесь полно оружия и боеприпасов."
     transitions:
       "взять пистолет": takeGun
-      "взять гранату": takeGrenade,
+      "взять ручную гранату": takeGrenade
       "вернуться в коридор": darkCorridor
 
+  takeGun:
+    className: TakeGunState
+    forward: arsenalRoom
 
+  takeGrenade:
+    className: TakeGrenadeState
+    forward: arsenalRoom
 
+  darkCorridorContinuation:
+    className: DarkCorridorContinuationState
+    description: "Коридор продолжается дальше. Спереди два пути: лестница вниз и дверь с надписью 'Офис'"
+    showNode: false
+    transitions:
+      "идти в офис": officeRoom
+  #    "спуститься по лестнице": basementEntrance
+
+  officeRoom:
+    className: OfficeRoomState
+    description: "Вы вошли в офис. На столе лежат документы, а в углу сейф. Вдруг вы слышите шорох за спиной. К Вам направляется зомби-извращенцец"
+    transitions:
+      "осмотреть документы": inspectDocuments
+      "попытаться открыть сейф": openSafe
+      "кинуть в него гранату": throwGrenade
+      "разрядить всю обойму из пистолета": unloadEntireMagazine
+      "кинуться на него с кулаками": attackWithFists
+
+  inspectDocuments:
+    showNode: false
+    transitions: {}
+
+  openSafe:
+    showNode: false
+    transitions: {}
+
+  throwGrenade:
+    showNode: false
+    transitions: { }
+
+  unloadEntireMagazine:
+    showNode: false
+    transitions: { }
+
+  attackWithFists:
+    transitions: { }

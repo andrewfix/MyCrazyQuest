@@ -8,7 +8,8 @@ public enum PlayerItemType {
     KNIFE("Нож"),
     GUN("Пистолет"),
     KEY("Ключ"),
-    MEDKIT("Аптечка");
+    MEDKIT("Аптечка"),
+    GRENADE("Ручная граната");
 
     @Getter
     private final String displayName;

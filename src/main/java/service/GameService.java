@@ -67,6 +67,11 @@ public class GameService {
         ((QuestState<Player>) quest.createStateInstance()).beforeExit((Player) quest.getEntity());
         quest.setCurrentStateNode(stateName);
         ((QuestState<Player>) quest.createStateInstance()).afterShow((Player) quest.getEntity());
+        var forward = quest.getCurrentStateNode().getForward();
+        if (forward != null) {
+            ((QuestState<Player>) quest.createStateInstance()).beforeExit((Player) quest.getEntity());
+            quest.setCurrentStateNode(forward);
+        }
     }
 
     public boolean isGameEnded() {

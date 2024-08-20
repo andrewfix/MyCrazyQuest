@@ -52,13 +52,20 @@ public class QuestScenarioLoaderService {
                 Map<String, String> transitions = (Map<String, String>) stateData.get("transitions");
 
                 QuestStateNode stateNode = states.get(stateKey);
-                if (transitions != null) {
-                    for (Map.Entry<String, String> transition : transitions.entrySet()) {
-                        var key = states.get(transition.getValue());
-                        if (key == null) {
-                               throw new Exception("Нет узла " + transition.getValue() + " для \"" + transition.getKey() + "\"");
+                stateNode.setShowNode(stateData.get("showNode") == null ? true : (boolean) stateData.get("showNode"));
+
+                QuestStateNode forward = states.get(stateData.get("forward"));
+                if (forward != null) {
+                    stateNode.setForward(forward);
+                } else {
+                    if (transitions != null) {
+                        for (Map.Entry<String, String> transition : transitions.entrySet()) {
+                            var key = states.get(transition.getValue());
+                            if (key == null) {
+                                throw new Exception("Нет узла " + transition.getValue() + " для \"" + transition.getKey() + "\"");
+                            }
+                            stateNode.addTransition(key, transition.getKey());
                         }
-                        stateNode.addTransition(key, transition.getKey());
                     }
                 }
             }

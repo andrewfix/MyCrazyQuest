@@ -53,6 +53,13 @@ public class QuestContext<T, V> {
         this.currentStateNode = newStateNode;
     }
 
+    public void setCurrentStateNode(QuestStateNode newStateNode) throws Exception {
+        if (newStateNode == null) {
+            throw new Exception("Incorrect state!");
+        }
+        this.currentStateNode = newStateNode;
+    }
+
     public boolean isQuestEnded() {
         return this.currentStateNode.getTransitions().isEmpty();
     }
