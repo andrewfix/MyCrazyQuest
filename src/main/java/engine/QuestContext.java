@@ -47,7 +47,7 @@ public class QuestContext<T, V> {
 
     public void setCurrentStateNode(String stateName) throws Exception {
         QuestStateNode newStateNode;
-        if ((stateName == null) || ((newStateNode = findStateNodeByName(stateName)) == null)) {
+        if ((stateName == null) || ((newStateNode =  findAllStateNodeByName(stateName)) == null)) {
             throw new Exception("Incorrect state!");
         }
         this.currentStateNode = newStateNode;

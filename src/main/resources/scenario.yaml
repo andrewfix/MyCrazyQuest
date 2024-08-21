@@ -1,5 +1,6 @@
-title: My Crazy Island
-description: Welcome to my crazy island! It's crazy
+title: "Последний шанс: Миссия Антивирус"
+description: "Город погрузился в безмолвие, нарушаемое лишь редкими шорохами в темноте. Вирус, вырвавшийся из секретной лаборатории, превратил людей в зомби — бездушных, бродящих теней. Улицы опустели, и некогда ожившие дома стали убежищами для немногих уцелевших.<br><br>
+              Ваша цель ясна: проникнуть в лабораторию, где всё началось, и добыть антивирус. Время на исходе, и каждый шаг должен быть точным. Лаборатория, погруженная в холодный свет аварийных ламп, ждёт вас, скрывая в своих глубинах единственный шанс на спасение."
 initialState: laboratoryEntrance
 states:
 
@@ -7,7 +8,7 @@ states:
     className: LaboratoryEntranceState
     description: "Вы находитесь у входа в секретную лабораторию. Вокруг темно и холодно. Спереди виднеется коридор."
     transitions:
-      "идти в коридор": darkCorridor
+      "идти по коридору": darkCorridor
       "осмотреть окрестности": checkSurroundings
       "x":  finishWin
       "xx": finishLoss
@@ -35,7 +36,7 @@ states:
       "осмотреть колбы": inspectFlasks
       "взять аптечку": takeMedkit
       "осмотреть труп ученого": inspectScientistCorpse
-      "уйти в коридор": darkCorridor
+      "выйти в коридор": darkCorridor
 
   inspectFlasks:
     className: InspectFlasksState

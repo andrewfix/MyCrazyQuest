@@ -72,6 +72,9 @@ public class GameService {
             ((QuestState<Player>) quest.createStateInstance()).beforeExit((Player) quest.getEntity());
             quest.setCurrentStateNode(forward);
         }
+        if (quest.getEntity().getHealth() == 0) {
+            quest.setCurrentStateNode("finishDeath");
+        }
     }
 
     public boolean isGameEnded() {
