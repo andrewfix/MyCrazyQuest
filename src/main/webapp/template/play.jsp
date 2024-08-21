@@ -3,7 +3,7 @@
 <fieldset>
 <c:forEach var="info" items="${gameService.getEntityInfo()}">
 <div>
-    <b>${info.getKey()}: </b> ${info.getValue()}%
+    <b>${info.getKey()}: </b> ${info.getValue()}
 </div>
 </c:forEach>
 </fieldset>

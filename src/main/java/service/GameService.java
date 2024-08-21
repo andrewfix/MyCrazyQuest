@@ -50,8 +50,8 @@ public class GameService {
 
     public Map<String, String> getEntityInfo() {
         Map<String, String> map = new HashMap<>();
-        map.put("Здоровье", String.valueOf(person.getHealth()));
-        map.put("Невменяемость", String.valueOf(person.getInsanity()));
+        map.put("Здоровье", String.valueOf(person.getHealth())+"%");
+        map.put("Невменяемость", String.valueOf(person.getInsanity())+"%");
         map.put("Предметы в наличии", person.getItems().toString());
         return map;
     }
