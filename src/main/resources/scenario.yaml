@@ -9,6 +9,10 @@ states:
     transitions:
       "идти в коридор": darkCorridor
       "осмотреть окрестности": checkSurroundings
+      "x":  finishWin
+      "xx": finishLoss
+      "xxx":  finishDeath
+
 
   checkSurroundings:
     className: CheckSurroundingsState
@@ -26,7 +30,7 @@ states:
 
   laboratoryRoom:
     className: LaboratoryRoomState
-    description: "Вы вошли в лабораторию. Вокруг вас колбы с неизвестными жидкостями, и в воздухе витает запах чего-то ядовитого. На столе лежат аптечки, под ним искусанный труп ученого."
+    description: "Вы в лаборатории. Вокруг вас колбы с неизвестными жидкостями, и в воздухе витает запах чего-то ядовитого. На столе лежат аптечки, под ним искусанный труп ученого."
     transitions:
       "осмотреть колбы": inspectFlasks
       "взять аптечку": takeMedkit
@@ -42,25 +46,19 @@ states:
   takeMedkit:
     className: TakeMedkitState
     description: "Вы взяли аптечку. Теперь у вас есть возможность восстановить здоровье."
-    itemAcquired: "аптечка"  # Игрок получает аптечку
     transitions:
       "выпить лекарство": useMedkit
-      "осмотреть труп ученого": inspectScientistCorpse
-      "вернуться в коридор": darkCorridor
+      "продолжить осмотр": laboratoryRoom
 
   useMedkit:
     className: UseMedkitState
-    description: "Вы выпили лекарство из аптечки и почувствовали, как ваше здоровье улучшилось."
-    healthEffect: +20  # Восстановление здоровья
-    transitions:
-      "осмотреть труп ученого": inspectScientistCorpse
-      "вернуться в коридор": darkCorridor
+    forward: laboratoryRoom
 
   inspectScientistCorpse:
     className: InspectScientistCorpseState
     description: "Вы начали осматривать труп ученого и заметили у него ключ в носке."
     transitions:
-      "взять ключ и вернуться в коридор": darkCorridor
+      "взять ключ": laboratoryRoom
 
   arsenalRoom:
     className: ArsenalRoomState
@@ -80,37 +78,77 @@ states:
 
   darkCorridorContinuation:
     className: DarkCorridorContinuationState
-    description: "Коридор продолжается дальше. Спереди два пути: лестница вниз и дверь с надписью 'Офис'"
+    description: "Коридор продолжается дальше. Спереди два пути: лифт и дверь с надписью 'Офис'"
     showNode: false
     transitions:
       "идти в офис": officeRoom
-  #    "спуститься по лестнице": basementEntrance
+      "подняться на лифте и покинуть секретную лабораторию": takeElevatorUp
 
   officeRoom:
     className: OfficeRoomState
-    description: "Вы вошли в офис. На столе лежат документы, а в углу сейф. Вдруг вы слышите шорох за спиной. К Вам направляется зомби-извращенцец"
+    description: "Вы вошли в офис. Темнота. Вдруг вы слышите шорох за спиной. По светящимся глазам Вы поняли, что это зомби. Вы в панике... Что делать????"
     transitions:
-      "осмотреть документы": inspectDocuments
-      "попытаться открыть сейф": openSafe
       "кинуть в него гранату": throwGrenade
       "разрядить всю обойму из пистолета": unloadEntireMagazine
       "кинуться на него с кулаками": attackWithFists
-
-  inspectDocuments:
-    showNode: false
-    transitions: {}
-
-  openSafe:
-    showNode: false
-    transitions: {}
+      "выбежать в коридор": darkCorridorContinuation
 
   throwGrenade:
+    className: ThrowGrenadeState
     showNode: false
+    description: "В результате взрыва гранаты в замкнутом помещении зомби вместе с Вами разорвало в клочья. RIP"
     transitions: { }
 
   unloadEntireMagazine:
+    className: UnloadEntireMagazineState
     showNode: false
-    transitions: { }
+    description: "Вам удалось его нейтрализовать. Вы нашли выключатель, свет зажегся"
+    transitions:
+      "продолжить осмотр офиса": continueOfficeInspection
 
   attackWithFists:
+    className: AttackWithFistsState
+    description: "Драка была отчаянной и вам удалось убить зомби. Весь искусанный и изранненый, с затуманенным сознанием, вам надо перевести дух"
+    transitions:
+      "продолжить осмотр офиса": continueOfficeInspection
+
+  continueOfficeInspection:
+    className: ContinueOfficeInspectionState
+    description: "На столе лежат документы, а в углу сейф"
+    transitions:
+      "попытаться открыть сейф": openSafe
+      "покинуть офис": darkCorridorContinuation2
+
+  openSafe:
+    className: OpenSafeState
+    description: "Ключ, который Вы нашли в носке убитого ученого подошел к сейфу. Вы открыли замок, распахнули дверцу и среди вороха порнографических журналов Вы увидели бокс с ампулами антивируса"
+    transitions:
+      "взять антивирус и покинуть офис": darkCorridorContinuation2
+
+  darkCorridorContinuation2:
+    description: "Вы снова в коридоре. Голова гудит, мысли путаются"
+    transitions:
+      "подняться на лифте и покинуть секретную лабораторию": takeElevatorUp
+      "войти в офис": continueOfficeInspection
+
+  takeElevatorUp:
+    className:  TakeElevatorUpState
+
+  finishWin:
+    showNode: false
+    description: "Вы шагнули в кабину лифта, где царила тишина, и двери плавно сошлись перед вами. Мягкий гул подъемника наполнил пространство, и вы почувствовали, как лифт плавно начал свой путь вверх. С каждым мгновением вы поднимались всё выше, к свету, оставляя позади мрак и хаос, которые недавно царили внизу.<br>
+                  Наконец, лифт остановился, и двери вновь разошлись. Перед вами открылся новый мир — спокойный, светлый, наполненный свежим воздухом и тихими звуками жизни.<br>Вы сделали шаг наружу, чувствуя, как груз ответственности, давивший на ваши плечи, постепенно растворяется.<br>Мир спасен, и теперь он ждет вас, чтобы вместе начать новую главу."
+    transitions: { }
+
+  finishLoss:
+    showNode: false
+    description: "Вы вошли в кабину лифта, и двери с глухим стуком сомкнулись за вами. Пространство вокруг заполнилось зловещим, механическим гулом, и вы почувствовали, как лифт начал подниматься. Время тянулось бесконечно, с каждым метром усиливая в вас чувство тревоги.<br>
+                  Наконец, лифт замер, и двери, скрипя, разошлись в стороны. Перед вами раскинулся опустевший мир, залитый мрачным, холодным светом. <br>Небо казалось бледным, почти бесцветным, а воздух — тяжелым и удушающим. На поверхности не было ни звука, ни признака жизни. Только холодное осознание провала.<br>
+                  Вы сделали шаг вперед, но каждый шаг отдавался пустотой внутри. Антивирус так и не был найден, и теперь, среди этого безжизненного пейзажа, вас охватило гнетущее чувство беспомощности. Мир умирал, и вместе с ним угасала последняя надежда."
+    transitions: { }
+
+  finishDeath:
+    showNode: false
+    description: "Тело твое было изранено, и кровоточащие раны не оставляли шанса на спасение. Боль жгла каждую клетку, становясь всё невыносимее. Лежа на холодном, пыльном полу, ты чувствовал, как последние капли сил покидают тебя. Веки тяжело опускались, но даже в этой слабости ты не мог найти покоя.<br>
+                 Судороги пронзили тело, скрутив его в болезненной агонии. Всё вокруг исчезло, осталась только боль и ощущение пустоты. В последнем рывке ты попытался ухватиться за жизнь, но силы окончательно иссякли. Потолок перед глазами поплыл и растворился в темноте, которая поглотила тебя вместе с последним выдохом."
     transitions: { }

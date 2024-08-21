@@ -9,6 +9,5 @@ public class TakeGunState implements QuestState<Player> {
 
     @Override
     public void afterShow(Player person) {
-        int x=1;
     }
 }

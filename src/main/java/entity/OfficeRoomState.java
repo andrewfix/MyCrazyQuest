@@ -12,5 +12,6 @@ public class OfficeRoomState implements QuestState<Player> {
                 .setShowNode(person.getItems().contains(PlayerItemType.GUN));
         person.getQuestContext().findAllStateNodeByName("throwGrenade")
                 .setShowNode(person.getItems().contains(PlayerItemType.GRENADE));
+        person.decInsanity(10);
     }
 }

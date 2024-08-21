@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum PlayerItemType {
-    KNIFE("Нож"),
     GUN("Пистолет"),
     KEY("Ключ"),
     MEDKIT("Аптечка"),
-    GRENADE("Ручная граната");
+    GRENADE("Ручная граната"),
+    ANTIVIRUS("Антивирус");
 
     @Getter
     private final String displayName;

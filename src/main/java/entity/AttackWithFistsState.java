@@ -1,13 +1,13 @@
 package entity;
 
-public class DefaultQuestState implements QuestState<Player> {
+public class AttackWithFistsState implements QuestState<Player> {
     @Override
     public void beforeExit(Player person) {
-
     }
 
     @Override
     public void afterShow(Player person) {
-        person.decStrength(1);
+        person.decStrength(40);
+        person.incInsanity(25);
     }
 }

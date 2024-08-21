@@ -28,6 +28,10 @@ public class Player {
         items.add(itemType);
     }
 
+    public void deleteItems(PlayerItemType playerItemType) {
+        items.remove(playerItemType);
+    }
+
     public void incStrength(int val) {
         health += val;
         if (health > 100) {
@@ -55,4 +59,5 @@ public class Player {
             insanity = 0;
         }
     }
+
 }

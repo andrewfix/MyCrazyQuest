@@ -1,6 +1,6 @@
 package entity;
 
-public class DefaultQuestState implements QuestState<Player> {
+public class UnloadEntireMagazineState implements QuestState<Player> {
     @Override
     public void beforeExit(Player person) {
 
@@ -8,6 +8,6 @@ public class DefaultQuestState implements QuestState<Player> {
 
     @Override
     public void afterShow(Player person) {
-        person.decStrength(1);
+        person.deleteItems(PlayerItemType.GUN);
     }
 }
