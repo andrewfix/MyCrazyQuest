@@ -1,5 +1,7 @@
 ﻿<%@ include file="/design/header.jsp" %>
 
+<h2>Игрок: ${userName}</h2>
+
 <fieldset>
 <c:forEach var="info" items="${gameService.getEntityInfo()}">
 <div>

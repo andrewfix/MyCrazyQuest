@@ -33,8 +33,7 @@ public class StartServlet extends HttpServletService {
             httpSession.setAttribute("userName", userName);
             try {
                 gameService.newGame();
-            }
-            catch (NewQuestException e) {
+            } catch (NewQuestException e) {
 
             }
             resp.sendRedirect("/play");

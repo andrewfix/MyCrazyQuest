@@ -8,13 +8,13 @@ import java.util.function.Predicate;
 
 public class QuestStateNode implements Cloneable {
     @Getter
-    private String name;
+    private final String name;
     @Getter
-    private String description;
+    private final String description;
     @Getter
     private Map<QuestStateNode, String> transitions;
     @Getter
-    private String className;
+    private final String className;
     @Getter
     @Setter
     private QuestStateNode forward;
@@ -42,6 +42,7 @@ public class QuestStateNode implements Cloneable {
         return result;
     }
 
+    //  Поиск по графу в глубину
     private void dfs(QuestStateNode node, Set<QuestStateNode> visitedNodes, Set<QuestStateNode> result, Predicate<QuestStateNode> predicate) {
         if (visitedNodes.contains(node)) {
             return;

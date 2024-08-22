@@ -5,6 +5,8 @@ import exception.NewQuestException;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class QuestContext<T, V> {
     private final QuestStateNode initStateNodePrototype;
     @Getter
@@ -19,16 +21,14 @@ public class QuestContext<T, V> {
     public QuestContext(QuestStateNode initStateNode) throws NewQuestException {
         this.initStateNodePrototype = initStateNode;
         this.defaultState = null;
-        //restart();
     }
 
-    public T createStateInstance() throws Exception {
-        try {
-            Class<?> stateClass = Class.forName("entity." + currentStateNode.getClassName());
-            return (T) stateClass.getDeclaredConstructor().newInstance();
-        } catch (Exception e) {
+    public T createStateInstance() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        if (currentStateNode.getClassName() == null) {
             return defaultState;
         }
+        Class<?> stateClass = Class.forName("entity." + currentStateNode.getClassName());
+        return (T) stateClass.getDeclaredConstructor().newInstance();
     }
 
     public QuestStateNode findStateNodeByName(String name) {

@@ -5,7 +5,6 @@ initialState: laboratoryEntrance
 states:
 
   laboratoryEntrance:
-    className: LaboratoryEntranceState
     description: "Вы находитесь у входа в секретную лабораторию. Вокруг темно и холодно. Спереди виднеется коридор."
     transitions:
       "идти по коридору": darkCorridor
@@ -14,7 +13,6 @@ states:
       "xx": finishLoss
       "xxx":  finishDeath
 
-
   checkSurroundings:
     className: CheckSurroundingsState
     description: "Вы решили осмотреться вокруг. Внезапно на вас напал зомби-извращенец! Он успел укусить вас, и вы почувствовали сильную боль и головокружение."
@@ -22,7 +20,6 @@ states:
       "вернуться ко входу": laboratoryEntrance
 
   darkCorridor:
-    className: DarkCorridorState
     description: "Вы идете по тёмному коридору. На полу лежат разбитые колбы и что-то склизкое. Справа дверь в лабораторию, все в кровавых отпечатках, слева дверь с надписью 'Арсенал', тоже вся исцарапаная и в подтеках крови."
     transitions:
       "идти в лабораторию": laboratoryRoom
@@ -30,8 +27,7 @@ states:
       "двигаться дальше в глубь коридора": darkCorridorContinuation
 
   laboratoryRoom:
-    className: LaboratoryRoomState
-    description: "Вы в лаборатории. Вокруг вас колбы с неизвестными жидкостями, и в воздухе витает запах чего-то ядовитого. На столе лежат аптечки, под ним искусанный труп ученого."
+    description: "Вы в лаборатории. Вокруг вас колбы с неизвестными жидкостями, и в воздухе витает запах чего-то ядовитого. На столе лежит аптечка, а под ним — изувеченный укусами труп ученого."
     transitions:
       "осмотреть колбы": inspectFlasks
       "взять аптечку": takeMedkit
@@ -57,12 +53,11 @@ states:
 
   inspectScientistCorpse:
     className: InspectScientistCorpseState
-    description: "Вы начали осматривать труп ученого и заметили у него ключ в носке."
+    description: "Вы склонились над холодным телом ученого, стараясь подавить дрожь.<br>Среди запекшейся крови и порванной одежды ваш взгляд вдруг упал на его носок — из него зловеще выглядывал ключ, будто ждал, чтобы его нашли."
     transitions:
       "взять ключ": laboratoryRoom
 
   arsenalRoom:
-    className: ArsenalRoomState
     description: "Вы вошли в арсенал. Здесь полно оружия и боеприпасов."
     transitions:
       "взять пистолет": takeGun
@@ -78,7 +73,6 @@ states:
     forward: arsenalRoom
 
   darkCorridorContinuation:
-    className: DarkCorridorContinuationState
     description: "Коридор продолжается дальше. Спереди два пути: лифт и дверь с надписью 'Офис'"
     showNode: false
     transitions:
@@ -114,7 +108,6 @@ states:
       "продолжить осмотр офиса": continueOfficeInspection
 
   continueOfficeInspection:
-    className: ContinueOfficeInspectionState
     description: "На столе лежат документы, а в углу сейф"
     transitions:
       "попытаться открыть сейф": openSafe

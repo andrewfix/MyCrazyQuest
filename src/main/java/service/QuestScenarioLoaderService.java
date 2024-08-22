@@ -2,6 +2,7 @@ package service;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import engine.QuestStateNode;
+import exception.NodeNotExistException;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -16,13 +17,13 @@ public class QuestScenarioLoaderService {
     private String questTitle;
     @Getter
     private String questDescription;
-    private Map<String, QuestStateNode> states;
+    private final Map<String, QuestStateNode> states;
 
     public QuestScenarioLoaderService() {
         this.states = new HashMap<>();
     }
 
-    public void loadFromYaml(URL url) throws IOException, Exception {
+    public void loadFromYaml(URL url) throws Exception {
         YAMLMapper mapper = new YAMLMapper();
         try (InputStream inputStream = url.openStream()) {
             if (inputStream == null) {
@@ -52,7 +53,7 @@ public class QuestScenarioLoaderService {
                 Map<String, String> transitions = (Map<String, String>) stateData.get("transitions");
 
                 QuestStateNode stateNode = states.get(stateKey);
-                stateNode.setShowNode(stateData.get("showNode") == null ? true : (boolean) stateData.get("showNode"));
+                stateNode.setShowNode(stateData.get("showNode") == null || (boolean) stateData.get("showNode"));
 
                 QuestStateNode forward = states.get(stateData.get("forward"));
                 if (forward != null) {
@@ -62,7 +63,7 @@ public class QuestScenarioLoaderService {
                         for (Map.Entry<String, String> transition : transitions.entrySet()) {
                             var key = states.get(transition.getValue());
                             if (key == null) {
-                                throw new Exception("Нет узла " + transition.getValue() + " для \"" + transition.getKey() + "\"");
+                                throw new NodeNotExistException("Нет узла " + transition.getValue() + " для \"" + transition.getKey() + "\"");
                             }
                             stateNode.addTransition(key, transition.getKey());
                         }

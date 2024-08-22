@@ -20,6 +20,7 @@ public class PlayServlet extends HttpServletService {
             resp.sendRedirect("/start");
         } else {
             req.setAttribute("gameService", this.gameService);
+            req.setAttribute("userName", httpSession.getAttribute("userName"));
             if (this.gameService.isGameEnded()) {
                 req.getRequestDispatcher("/template/end.jsp").forward(req, resp);
                 httpSession.removeAttribute("userName");
