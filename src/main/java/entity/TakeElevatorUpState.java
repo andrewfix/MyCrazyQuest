@@ -5,7 +5,7 @@ import engine.QuestStateNode;
 public class TakeElevatorUpState implements QuestState<Player> {
     @Override
     public void beforeExit(Player person) {
-int x=1;
+
     }
 
     @Override

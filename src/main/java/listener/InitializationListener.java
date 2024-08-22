@@ -1,5 +1,6 @@
 package listener;
 
+import exception.NewQuestException;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -20,7 +21,7 @@ public class InitializationListener implements ServletContextListener {
             servletContext.setAttribute("gameService", gameService);
             servletContext.setAttribute("contextPath", servletContext.getContextPath());
 
-        } catch (Exception e) {
+        } catch (Exception | NewQuestException e) {
             servletContext.setAttribute("gameService", e);
         }
     }

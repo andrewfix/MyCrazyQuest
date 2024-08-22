@@ -1,5 +1,6 @@
 package servlet;
 
+import exception.NewQuestException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +31,12 @@ public class StartServlet extends HttpServletService {
         if (!StringUtils.isEmpty(userName)) {
             HttpSession httpSession = req.getSession();
             httpSession.setAttribute("userName", userName);
+            try {
+                gameService.newGame();
+            }
+            catch (NewQuestException e) {
+
+            }
             resp.sendRedirect("/play");
         } else {
             req.setAttribute("gameService", this.gameService);

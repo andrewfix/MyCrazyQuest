@@ -8,7 +8,7 @@ public class CheckSurroundingsState implements QuestState<Player> {
 
     @Override
     public void afterShow(Player person) {
-        person.decStrength(60);
+        person.decStrength(30);
         person.incInsanity(25);
     }
 }

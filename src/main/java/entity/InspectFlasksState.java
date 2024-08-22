@@ -8,7 +8,7 @@ public class InspectFlasksState implements QuestState<Player> {
 
     @Override
     public void afterShow(Player person) {
-        person.decStrength(20);
-        person.incInsanity(15);
+        person.decStrength(40);
+        person.incInsanity(25);
     }
 }

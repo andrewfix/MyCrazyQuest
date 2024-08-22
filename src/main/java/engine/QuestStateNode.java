@@ -6,13 +6,13 @@ import lombok.Setter;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class QuestStateNode {
+public class QuestStateNode implements Cloneable {
     @Getter
     private String name;
     @Getter
     private String description;
     @Getter
-    private final Map<QuestStateNode, String> transitions;
+    private Map<QuestStateNode, String> transitions;
     @Getter
     private String className;
     @Getter
@@ -56,4 +56,34 @@ public class QuestStateNode {
         }
     }
 
+    @Override
+    protected synchronized QuestStateNode clone() throws CloneNotSupportedException {
+        return clone(new HashMap<>());
+    }
+
+    private QuestStateNode clone(Map<QuestStateNode, QuestStateNode> clonedNodes) {
+        if (clonedNodes.containsKey(this)) {
+            return clonedNodes.get(this);
+        }
+
+        try {
+            QuestStateNode cloned = (QuestStateNode) super.clone();
+            clonedNodes.put(this, cloned);
+
+            Map<QuestStateNode, String> clonedTransitions = new HashMap<>();
+            for (Map.Entry<QuestStateNode, String> entry : this.transitions.entrySet()) {
+                clonedTransitions.put(entry.getKey().clone(clonedNodes), entry.getValue());
+            }
+            cloned.transitions = clonedTransitions;
+
+            if (this.forward != null) {
+                cloned.forward = this.forward.clone(clonedNodes);
+            }
+
+            return cloned;
+
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package servlet;
 
+import exception.NewQuestException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,6 @@ public class PlayServlet extends HttpServletService {
             if (this.gameService.isGameEnded()) {
                 req.getRequestDispatcher("/template/end.jsp").forward(req, resp);
                 httpSession.removeAttribute("userName");
-                gameService.newGame();
             } else {
                 req.getRequestDispatcher("/template/play.jsp").forward(req, resp);
             }

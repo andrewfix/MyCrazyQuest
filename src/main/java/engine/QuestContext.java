@@ -1,23 +1,25 @@
 package engine;
 
+import exception.IncorrectStateException;
+import exception.NewQuestException;
 import lombok.Getter;
 import lombok.Setter;
 
 public class QuestContext<T, V> {
+    private final QuestStateNode initStateNodePrototype;
     @Getter
     private QuestStateNode currentStateNode;
-    private final QuestStateNode initStateNode;
+    private QuestStateNode initStateNode;
     @Getter
     @Setter
     private V entity;
     @Setter
     private T defaultState;
 
-    public QuestContext(QuestStateNode initStateNode) {
-        this.currentStateNode = initStateNode;
-        this.initStateNode = initStateNode;
+    public QuestContext(QuestStateNode initStateNode) throws NewQuestException {
+        this.initStateNodePrototype = initStateNode;
         this.defaultState = null;
-        this.entity = null;
+        //restart();
     }
 
     public T createStateInstance() throws Exception {
@@ -47,15 +49,15 @@ public class QuestContext<T, V> {
 
     public void setCurrentStateNode(String stateName) throws Exception {
         QuestStateNode newStateNode;
-        if ((stateName == null) || ((newStateNode =  findAllStateNodeByName(stateName)) == null)) {
-            throw new Exception("Incorrect state!");
+        if ((stateName == null) || ((newStateNode = findAllStateNodeByName(stateName)) == null)) {
+            throw new IncorrectStateException(stateName);
         }
         this.currentStateNode = newStateNode;
     }
 
     public void setCurrentStateNode(QuestStateNode newStateNode) throws Exception {
         if (newStateNode == null) {
-            throw new Exception("Incorrect state!");
+            throw new IncorrectStateException("Null");
         }
         this.currentStateNode = newStateNode;
     }
@@ -64,7 +66,12 @@ public class QuestContext<T, V> {
         return this.currentStateNode.getTransitions().isEmpty();
     }
 
-    public void restart() {
+    public void restart() throws NewQuestException {
+        try {
+            initStateNode = initStateNodePrototype.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new NewQuestException(e);
+        }
         currentStateNode = initStateNode;
         entity = null;
     }

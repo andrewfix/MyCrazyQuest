@@ -4,6 +4,7 @@ import engine.QuestContext;
 import entity.DefaultQuestState;
 import entity.Player;
 import entity.QuestState;
+import exception.NewQuestException;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class GameService {
     private final QuestContext<QuestState<Player>, Player> quest;
     private Player person;
 
-    public GameService(URL fileName) throws IOException, Exception {
+    public GameService(URL fileName) throws IOException, Exception, NewQuestException {
         scenarioLoaderService = new QuestScenarioLoaderService();
         scenarioLoaderService.loadFromYaml(fileName);
 
@@ -30,7 +31,7 @@ public class GameService {
 
         quest = new QuestContext<>(scenario);
         quest.setDefaultState(new DefaultQuestState());
-        newGame();
+        ///newGame();
     }
 
     public String getStateNodeDescriptions() {
@@ -56,7 +57,7 @@ public class GameService {
         return map;
     }
 
-    public void newGame() {
+    public void newGame() throws NewQuestException {
         quest.restart();
         person = new Player(quest);
         quest.setEntity(person);
