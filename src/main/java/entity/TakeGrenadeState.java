@@ -9,5 +9,6 @@ public class TakeGrenadeState implements QuestState<Player> {
 
     @Override
     public void afterShow(Player person) {
+        // TODO document why this method is empty
     }
 }

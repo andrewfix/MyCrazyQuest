@@ -10,5 +10,6 @@ public class UseMedkitState implements QuestState<Player> {
 
     @Override
     public void afterShow(Player person) {
+        // TODO document why this method is empty
     }
 }

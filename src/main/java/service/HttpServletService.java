@@ -6,7 +6,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 
 public class HttpServletService extends HttpServlet {
-    protected GameService gameService;
+    protected transient GameService gameService;
+    protected static final String USER_NAME_ATTRIBUTE_NAME = "userName";
 
     @Override
     public void init(ServletConfig config) throws ServletException {

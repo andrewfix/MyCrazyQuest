@@ -17,7 +17,7 @@ public class StartServlet extends HttpServletService {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession httpSession = req.getSession();
-        if (httpSession.getAttribute("userName") != null) {
+        if (httpSession.getAttribute(USER_NAME_ATTRIBUTE_NAME) != null) {
             resp.sendRedirect("/play");
         } else {
             req.setAttribute("gameService", this.gameService);
@@ -28,13 +28,13 @@ public class StartServlet extends HttpServletService {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
-        if (!StringUtils.isEmpty(userName)) {
+        if (!StringUtils.isEmpty(userName) && !StringUtils.isBlank(userName)) {
             HttpSession httpSession = req.getSession();
-            httpSession.setAttribute("userName", userName);
+            httpSession.setAttribute(USER_NAME_ATTRIBUTE_NAME, userName);
             try {
                 gameService.newGame();
             } catch (NewQuestException e) {
-
+                throw new ServletException(e);
             }
             resp.sendRedirect("/play");
         } else {

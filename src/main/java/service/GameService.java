@@ -7,7 +7,7 @@ import entity.QuestState;
 import exception.NewQuestException;
 import lombok.Getter;
 
-import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,9 +42,7 @@ public class GameService {
         this.quest.getCurrentStateNode().getTransitions()
                 .entrySet()
                 .stream().filter(x -> x.getKey().isShowNode())
-                .forEach(x -> {
-                    map.put(x.getKey().getName(), x.getValue());
-                });
+                .forEach(x -> map.put(x.getKey().getName(), x.getValue()));
         return map;
     }
 
@@ -62,7 +60,7 @@ public class GameService {
         quest.setEntity(person);
     }
 
-    public void goTo(String stateName) throws Exception {
+    public void goTo(String stateName) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         quest.createStateInstance().beforeExit(quest.getEntity());
         quest.setCurrentStateNode(stateName);

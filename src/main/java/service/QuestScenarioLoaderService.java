@@ -23,7 +23,7 @@ public class QuestScenarioLoaderService {
         this.states = new HashMap<>();
     }
 
-    public void loadFromYaml(URL url) throws Exception {
+    public void loadFromYaml(URL url) throws IOException {
         YAMLMapper mapper = new YAMLMapper();
         try (InputStream inputStream = url.openStream()) {
             if (inputStream == null) {

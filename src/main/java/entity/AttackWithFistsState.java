@@ -3,6 +3,7 @@ package entity;
 public class AttackWithFistsState implements QuestState<Player> {
     @Override
     public void beforeExit(Player person) {
+        // TODO document why this method is empty
     }
 
     @Override

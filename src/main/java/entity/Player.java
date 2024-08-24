@@ -2,7 +2,6 @@ package entity;
 
 import engine.QuestContext;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 
