@@ -21,6 +21,7 @@ public class QuestContext<T, V> {
     public QuestContext(QuestStateNode initStateNode) throws NewQuestException {
         this.initStateNodePrototype = initStateNode;
         this.defaultState = null;
+        restart();
     }
 
     public T createStateInstance() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
