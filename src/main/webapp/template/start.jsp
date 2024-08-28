@@ -1,6 +1,6 @@
 ﻿<%@ include file="/design/header.jsp" %>
 
-<h2>${gameService.getGameDescription()}</h2>
+<h2>${gameDescription}</h2>
 
 <p>Как тебя зовут, о спаситель!<p>
 <form method="POST" action="${contextPath}/start">

@@ -20,7 +20,9 @@ public class StartServlet extends HttpServletService {
         if (httpSession.getAttribute(USER_NAME_ATTRIBUTE_NAME) != null) {
             resp.sendRedirect("/play");
         } else {
-            req.setAttribute("gameService", this.gameService);
+            // Добавляем данные для отображения, используемые для всех страниц
+            this.setDefaultAttributesToRequest(req);
+            req.setAttribute("gameDescription", gameService.getGameDescription());
             req.getRequestDispatcher("/template/start.jsp").forward(req, resp);
         }
     }
@@ -38,7 +40,8 @@ public class StartServlet extends HttpServletService {
             }
             resp.sendRedirect("/play");
         } else {
-            req.setAttribute("gameService", this.gameService);
+            // Добавляем данные для отображения, используемые для всех страниц
+            this.setDefaultAttributesToRequest(req);
             req.setAttribute("errorMessages", "Имя не может быть пустым!");
             req.getRequestDispatcher("/template/start.jsp").forward(req, resp);
         }

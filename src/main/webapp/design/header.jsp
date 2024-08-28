@@ -8,4 +8,4 @@
 </head>
 <body>
 
-<h1>${gameService.getGameTitle()}</h1>
+<h1>${gameTitle}</h1>

@@ -19,7 +19,10 @@ public class PlayServlet extends HttpServletService {
         if (httpSession.getAttribute(USER_NAME_ATTRIBUTE_NAME) == null) {
             resp.sendRedirect("/start");
         } else {
-            req.setAttribute("gameService", this.gameService);
+            // Добавляем данные для отображения, используемые для всех страниц
+            this.setDefaultAttributesToRequest(req);
+            // Добавляем данные для отображения, используемые для страницы play
+            this.settAttributesToPlayRequest(req);
             req.setAttribute(USER_NAME_ATTRIBUTE_NAME, httpSession.getAttribute(USER_NAME_ATTRIBUTE_NAME));
             if (this.gameService.isGameEnded()) {
                 req.getRequestDispatcher("/template/end.jsp").forward(req, resp);
@@ -44,5 +47,12 @@ public class PlayServlet extends HttpServletService {
             req.setAttribute("errorMessages", e.getMessage());
             req.getRequestDispatcher("/template/play.jsp").forward(req, resp);
         }
+    }
+
+    private void settAttributesToPlayRequest(HttpServletRequest req) {
+        req.setAttribute("gameTitle", this.gameService.getGameTitle());
+        req.setAttribute("еntityInfo", this.gameService.getEntityInfo());
+        req.setAttribute("stateNodeDescriptions", this.gameService.getStateNodeDescriptions());
+        req.setAttribute("stateNodeTransitions", this.gameService.getStateNodeTransitions());
     }
 }

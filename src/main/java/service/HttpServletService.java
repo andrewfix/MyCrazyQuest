@@ -4,6 +4,7 @@ import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class HttpServletService extends HttpServlet {
     protected transient GameService gameService;
@@ -20,4 +21,10 @@ public class HttpServletService extends HttpServlet {
             gameService = (GameService) obj;
         }
     }
+
+    protected void setDefaultAttributesToRequest(HttpServletRequest req) {
+        req.setAttribute("gameTitle", this.gameService.getGameTitle());
+
+    }
+
 }
