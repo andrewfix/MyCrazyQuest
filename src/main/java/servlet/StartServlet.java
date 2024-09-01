@@ -42,6 +42,7 @@ public class StartServlet extends HttpServletService {
         } else {
             // Добавляем данные для отображения, используемые для всех страниц
             this.setDefaultAttributesToRequest(req);
+            req.setAttribute("gameDescription", gameService.getGameDescription());
             req.setAttribute("errorMessages", "Имя не может быть пустым!");
             req.getRequestDispatcher("/template/start.jsp").forward(req, resp);
         }

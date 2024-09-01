@@ -44,6 +44,8 @@ public class PlayServlet extends HttpServletService {
                 resp.sendRedirect("/play");
             }
         } catch (Exception e) {
+            // Добавляем данные для отображения, используемые для страницы play
+            this.settAttributesToPlayRequest(req);
             req.setAttribute("errorMessages", e.getMessage());
             req.getRequestDispatcher("/template/play.jsp").forward(req, resp);
         }
